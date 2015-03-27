@@ -38,14 +38,15 @@ public class OffsetRequester {
 		long whichTime = kafka.api.OffsetRequest.LatestTime();
 		System.out.println("Max Offset::"+ readLastOffset(consumer, topic, partition, whichTime));
 		
+		TopicAndPartition topicAndPartition = new TopicAndPartition(topic, partition);
 		List<TopicAndPartition> offReq = new ArrayList<TopicAndPartition>();
-		offReq.add(new TopicAndPartition(topic, partition));
+		offReq.add(topicAndPartition);
 		OffsetFetchRequest req = new OffsetFetchRequest("TestGroup5", offReq,(short) 1, 0, "offset_request_fetcher");		
 		OffsetFetchResponse resp = consumer.fetchOffsets(req);
 		if(resp.offsets().isEmpty()){
 			System.out.println("Nothing is there");
 		}else{
-			System.out.println("Offset Commited(__consumer_offsets)::"+resp.offsets().get(new TopicAndPartition(topic, partition)).offset());
+			System.out.println("Offset Commited(__consumer_offsets)::"+resp.offsets().get(topicAndPartition).offset());
 		}
 	}
 	
