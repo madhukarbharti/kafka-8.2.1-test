@@ -50,14 +50,14 @@ public class OffsetRequester {
 	}
 	
 	public static long readLastOffset(SimpleConsumer consumer, String topic, int partition, long whichTime) {
-        Map<TopicAndPartition, PartitionOffsetRequestInfo> requestInfo = new HashMap<TopicAndPartition, PartitionOffsetRequestInfo>();
-        requestInfo.put(new TopicAndPartition(topic, partition), new PartitionOffsetRequestInfo(whichTime, 1));
-        OffsetResponse response = consumer.getOffsetsBefore(new OffsetRequest(requestInfo, kafka.api.OffsetRequest.CurrentVersion(), consumer.clientId()));
-        if (response.hasError()) {
-            LOGGER.log(Level.INFO, "Error fetching data Offset Data the Broker. Reason: " + response.errorCode(topic, partition));
-            return 0;
-        }
-        long[] offsets = response.offsets(topic, partition);
-        return offsets[0];
-    }
+	        Map<TopicAndPartition, PartitionOffsetRequestInfo> requestInfo = new HashMap<TopicAndPartition, PartitionOffsetRequestInfo>();
+	        requestInfo.put(new TopicAndPartition(topic, partition), new PartitionOffsetRequestInfo(whichTime, 1));
+	        OffsetResponse response = consumer.getOffsetsBefore(new OffsetRequest(requestInfo, kafka.api.OffsetRequest.CurrentVersion(), consumer.clientId()));
+	        if (response.hasError()) {
+	            LOGGER.log(Level.INFO, "Error fetching data Offset Data the Broker. Reason: " + response.errorCode(topic, partition));
+	            return 0;
+	        }
+	        long[] offsets = response.offsets(topic, partition);
+	        return offsets[0];
+    	}
 }
