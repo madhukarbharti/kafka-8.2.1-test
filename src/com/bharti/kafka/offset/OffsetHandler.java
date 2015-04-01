@@ -67,6 +67,10 @@ public class OffsetHandler {
 			System.out.println("No coordinator broker available");
 			return -1;
 		}
+		channel.disconnect();
+		
+		channel = new BlockingChannel(broker.host(), broker.port(), BlockingChannel.UseDefaultBufferSize(), BlockingChannel.UseDefaultBufferSize(), 5000);
+		channel.connect();
 
 		TopicAndPartition part0 = new TopicAndPartition("TestQ", 0);
 		List<TopicAndPartition> reqInfo = new ArrayList<TopicAndPartition>();
@@ -109,6 +113,11 @@ public class OffsetHandler {
 			System.out.println("No coordinator broker available");
 			
 		}
+		
+		channel.disconnect();
+		
+		channel = new BlockingChannel(broker.host(), broker.port(), BlockingChannel.UseDefaultBufferSize(), BlockingChannel.UseDefaultBufferSize(), 5000);
+		channel.connect();
 
 		long currentTime = System.currentTimeMillis();
         offsetMap.put(partitionInfo, new OffsetAndMetadata(offset, "commiting-"+offset, currentTime));
@@ -122,6 +131,7 @@ public class OffsetHandler {
 		if(commitResp.errorCode(partitionInfo) == ErrorMapping.NoError()){			
 			System.out.println("Offset Commited successfully, "+offset);			
 		}
+		channel.disconnect();
 		return commitResp.errorCode(partitionInfo);
 	}
 	
