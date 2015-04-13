@@ -55,7 +55,7 @@ public class TestConsumer {
 	
 	public static void main(String[] args) {
 		String topic = "TestQ";
-		startConsuming(topic, "TestConsumerGroup2");
+		startConsuming(topic, "TestConsumerGroup1");
 	}
 
 }
